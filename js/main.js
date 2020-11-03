@@ -7,16 +7,11 @@ import Swiper from 'https://unpkg.com/swiper/swiper-bundle.esm.browser.min.js'
 const swiper =  new Swiper('.swiper-container', {
   loop: true,
   autoplay: true,
-  //effect: 'flip'
   effect: 'cube',
   grabCursor: true,
-  // pagination: {
-  //   el: '.swiper-pagination',
-  //   clickable: true
-  // }
+
 })
 
-////day 1
 const RED_COLOR = '#ff0000';
 
 const cartButton = document.querySelector("#cart-button");
@@ -27,6 +22,7 @@ const modalAuth = document.querySelector('.modal-auth');
 const closeAuth = document.querySelector('.close-auth');
 const logInForm = document.querySelector('#logInForm');
 const loginInput = document.querySelector('#login');
+const loginPassword = document.querySelector('#password');
 const userName = document.querySelector('.user-name');
 const buttonOut = document.querySelector('.button-out');
 const cardsRestaurants = document.querySelector('.cards-restaurants');
@@ -64,6 +60,13 @@ function validName(str) {
   const regName = /^[a-zA-Z][a-zA-Z0-9-_\.]{1,20}$/;
   return regName.test(str);
 }
+
+function validPassword(str) {
+  const regPassword = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).*$/;
+  return regPassword.test(str);
+}
+
+
 
 function toggleModal() {
   modal.classList.toggle("is-open");
@@ -115,7 +118,7 @@ function notAuthorized() {
   function logIn(event) {
 
     event.preventDefault();
-    if (validName(loginInput.value)) {
+    if ( validName(loginInput.value) && validPassword(loginPassword.value) ) {
       login = loginInput.value;
       localStorage.setItem('delivery', login);
 
@@ -127,7 +130,7 @@ function notAuthorized() {
       logInForm.reset();
       checkAuth();
     } else {
-      alert('Введите логин!');
+      alert('Введите корректный логин или пароль!');
       loginInput.style.borderColor = RED_COLOR;
       loginInput.value = '';
     }
@@ -137,7 +140,6 @@ function notAuthorized() {
   closeAuth.addEventListener('click', toggleModalAuth);
   logInForm.addEventListener('submit', logIn);
   modalAuth.addEventListener('click', function (event) {
-    //console.log(event.target); !!!!!!!!!!!!!!!!!
     if (event.target.classList.contains('is-open')) {
       toggleModalAuth();
     }
@@ -152,8 +154,6 @@ function checkAuth() {
     notAuthorized();
   }
 }
-
-//day 2
 
 function createCardsResraurant(restaurant) {
   //деструктуризация restaurant
@@ -183,7 +183,7 @@ function createCardsResraurant(restaurant) {
     <div class="card-text">
       <div class="card-heading">
         <h3 class="card-title">${name}</h3>
-        <span class="card-tag tag">${timeOfDelivery}</span>
+        <span class="card-tag tag">${timeOfDelivery} мин</span>
       </div>
       <div class="card-info">
         <div class="rating">
@@ -241,7 +241,6 @@ function openGoods(event) {
       cardsMenu.textContent = '';
 
       containerPromo.classList.add('hide');
-      //swiper.destroy(false);
       restaurants.classList.add('hide');
       menu.classList.remove('hide');
 
@@ -269,7 +268,6 @@ function openGoods(event) {
 
 function returnMain() {
   containerPromo.classList.remove('hide');
-  //swiper.init();
   restaurants.classList.remove('hide');
   menu.classList.add('hide');
 }
@@ -373,7 +371,6 @@ function init() {
 
   logo.addEventListener('click', function() {
     containerPromo.classList.remove('hide');
-    //swiper.init();
     restaurants.classList.remove('hide');
     menu.classList.add('hide');
   });
@@ -401,6 +398,7 @@ function init() {
           });
         })
         .then(function (linksProduct) {
+          cardsMenu.textContent='';
           linksProduct.forEach(function (link) {
             getData(`./db/${link}`)
               .then(function (data) {
@@ -409,12 +407,9 @@ function init() {
                   return name.includes(value.toLowerCase());
                 })
 
-                cardsMenu.textContent = '';
                 containerPromo.classList.add('hide');
-                //swiper.destroy(false);
                 restaurants.classList.add('hide');
                 menu.classList.remove('hide');
-
                 restaurantTitle.textContent = 'Результат поиска';
                 restaurantRating.textContent = '';
                 restaurantPrice.textContent = '';
@@ -432,10 +427,3 @@ function init() {
 
 init();
 
-////my question
-// const str= 'сыр\nпомидор\nгрибы';
-// str.split('\n').map(string => string.trim()).forEach(item => {
-//   document.body.insertAdjacentHTML('beforeend',  `
-//     <a href="#${item}">${item}</a>
-//   `)
-// });
