@@ -113,8 +113,6 @@ function authorized() {
 }
 
 function notAuthorized() {
-  console.log('not authorized');
-
   function logIn(event) {
 
     event.preventDefault();
@@ -345,6 +343,27 @@ function changeCount(event) {
     renderCart();
   }
 }
+
+function showInfo(classOfInput) {
+  let info = document.querySelector(classOfInput);
+  info.classList.remove('info-hidden');
+}
+
+function hiddenInfo(classOfInput) {
+  let info = document.querySelector(classOfInput);
+  info.classList.add('info-hidden');
+}
+
+loginInput.addEventListener('focus', function() { showInfo('.info-login')}, true);
+loginPassword.addEventListener('focus', function() { showInfo('.info-password')}, true);
+
+loginInput.addEventListener('blur', function() { hiddenInfo('.info-login')} , true);
+loginPassword.addEventListener('blur', function() { hiddenInfo('.info-password')} , true);
+
+
+
+
+
 
 function init() {
   getData('./db/partners.json').then(function (data) {

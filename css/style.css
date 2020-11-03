@@ -487,6 +487,21 @@ button {
     margin-bottom: 22px;
 }
 
+.info{
+    color: red;
+    font-size: 12px;
+    width: 250px;
+}
+.info-hidden{
+    display: none;
+}
+.info::before{
+    color: red;
+    content: " *";
+    margin-right:  4px;
+
+}
+
 .food-row {
     display: flex;
     align-items: flex-start;
