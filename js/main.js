@@ -4,7 +4,7 @@ import Swiper from 'https://unpkg.com/swiper/swiper-bundle.esm.browser.min.js'
 
 //swiper
 
-const swiper =  new Swiper('.swiper-container', {
+const swiper = new Swiper('.swiper-container', {
   loop: true,
   autoplay: true,
   effect: 'cube',
@@ -116,7 +116,7 @@ function notAuthorized() {
   function logIn(event) {
 
     event.preventDefault();
-    if ( validName(loginInput.value) && validPassword(loginPassword.value) ) {
+    if (validName(loginInput.value) && validPassword(loginPassword.value)) {
       login = loginInput.value;
       localStorage.setItem('delivery', login);
 
@@ -281,11 +281,11 @@ function addToCart(event) {
     const cost = card.querySelector('.card-price').textContent;
     const id = buttonAddToCart.id;
 
-    const food = cart.find(function(item) {
+    const food = cart.find(function (item) {
       return item.id === id;
     })
 
-    if(food) {
+    if (food) {
       food.count += 1;
     } else {
       cart.push({
@@ -300,8 +300,13 @@ function addToCart(event) {
 
 function renderCart() {
   modalBody.textContent = '';
-  
-  cart.forEach(function({ id, title, cost, count }){
+
+  cart.forEach(function ({
+    id,
+    title,
+    cost,
+    count
+  }) {
     const itemCart = `
       <div class="food-row">
       <span class="food-name">${title}</span>
@@ -317,7 +322,7 @@ function renderCart() {
     modalBody.insertAdjacentHTML('afterbegin', itemCart);
   });
 
-  const totalPrice = cart.reduce(function(result, item) {
+  const totalPrice = cart.reduce(function (result, item) {
     return result + (parseFloat(item.cost) * item.count);
   }, 0);
 
@@ -327,19 +332,19 @@ function renderCart() {
 function changeCount(event) {
   const target = event.target;
 
-  if(target.classList.contains('counter-button')) {
-    const food = cart.find(function(item) {
+  if (target.classList.contains('counter-button')) {
+    const food = cart.find(function (item) {
       return item.id === target.dataset.id;
     });
 
-    if(target.classList.contains('counter-minus')) {
-      food.count--; 
-      if(food.count === 0) {
+    if (target.classList.contains('counter-minus')) {
+      food.count--;
+      if (food.count === 0) {
         cart.splice(cart.indexOf(food), 1);
       }
     }
-    if(target.classList.contains('counter-plus')) food.count++;
-    
+    if (target.classList.contains('counter-plus')) food.count++;
+
     renderCart();
   }
 }
@@ -354,11 +359,19 @@ function hiddenInfo(classOfInput) {
   info.classList.add('info-hidden');
 }
 
-loginInput.addEventListener('focus', function() { showInfo('.info-login')}, true);
-loginPassword.addEventListener('focus', function() { showInfo('.info-password')}, true);
+loginInput.addEventListener('focus', function () {
+  showInfo('.info-login')
+}, true);
+loginPassword.addEventListener('focus', function () {
+  showInfo('.info-password')
+}, true);
 
-loginInput.addEventListener('blur', function() { hiddenInfo('.info-login')} , true);
-loginPassword.addEventListener('blur', function() { hiddenInfo('.info-password')} , true);
+loginInput.addEventListener('blur', function () {
+  hiddenInfo('.info-login')
+}, true);
+loginPassword.addEventListener('blur', function () {
+  hiddenInfo('.info-password')
+}, true);
 
 
 
@@ -370,12 +383,12 @@ function init() {
     data.forEach(createCardsResraurant);
   });
 
-  cartButton.addEventListener("click", function(){
+  cartButton.addEventListener("click", function () {
     renderCart();
     toggleModal();
   });
 
-  buttonClearCart.addEventListener('click', function(){
+  buttonClearCart.addEventListener('click', function () {
     cart.length = 0;
     renderCart();
   })
@@ -388,7 +401,7 @@ function init() {
 
   cardsRestaurants.addEventListener('click', openGoods);
 
-  logo.addEventListener('click', function() {
+  logo.addEventListener('click', function () {
     containerPromo.classList.remove('hide');
     restaurants.classList.remove('hide');
     menu.classList.add('hide');
@@ -417,7 +430,7 @@ function init() {
           });
         })
         .then(function (linksProduct) {
-          cardsMenu.textContent='';
+          cardsMenu.textContent = '';
           linksProduct.forEach(function (link) {
             getData(`./db/${link}`)
               .then(function (data) {
@@ -445,4 +458,3 @@ function init() {
 }
 
 init();
-
