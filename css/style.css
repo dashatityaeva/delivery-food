@@ -488,6 +488,8 @@ button {
 }
 
 .info{
+    display: block;
+    margin-top: 5px;
     color: red;
     font-size: 12px;
     width: 250px;
